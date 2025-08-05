@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizNance - Business Task & Team Tracker</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="" class="logo">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 11H7v8h2v-8zm4-4h-2v12h2V7zm4-3h-2v15h2V4z"/>
+                    <circle cx="12" cy="4" r="2" opacity="0.3"/>
+                </svg>
+                BizNance
+            </a>
+            <div class="nav-buttons">
+                <a href="/login/" class="btn btn-login">Login</a>
+                <a href="/signup/" class="btn btn-signup">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Streamline Your Team's Success</h1>
+            <p>BizNance helps you assign tasks, track progress, and boost productivity with an intuitive dashboard that keeps your entire team aligned and focused.</p>
+            <div class="hero-cta">
+                <a href="/signup/" class="btn btn-hero">Get Started Free</a>
+                <a href="#" class="btn btn-hero" style="background: transparent; color: white; border: 2px solid white;">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-container">
+            <h2>Everything You Need to Manage Your Team</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3>Smart Task Assignment</h3>
+                    <p>Efficiently assign tasks to team members with smart suggestions based on workload, skills, and availability. Keep everyone productive and balanced.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                            <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                        </svg>
+                    </div>
+                    <h3>Real-time Progress Tracking</h3>
+                    <p>Monitor project progress with live updates and visual dashboards. Get instant insights into team performance and project timelines.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                            <path d="M16 4v4h-2V6.5L12.5 8 11 6.5 8.5 8 7 6.5V8H5V4h2v1.5l1.5 1.5L10 5.5V4h2v1.5L13.5 7 15 5.5V4h1zm4 12v4H4v-4h16zm-8-8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/>
+                        </svg>
+                    </div>
+                    <h3>Team Collaboration Hub</h3>
+                    <p>Centralize communication and collaboration with integrated messaging, file sharing, and status updates all in one powerful platform.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>About BizNance</h4>
+                    <p>We're dedicated to helping businesses streamline their operations and boost team productivity through intelligent task management and collaboration tools.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Our Mission</h4>
+                    <p>To empower teams worldwide with the tools they need to work smarter, communicate better, and achieve extraordinary results together.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <p>Ready to transform your business operations? Get in touch with our team to learn how BizNance can help your organization thrive.</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 BizNance. All rights reserved. | Built for modern teams who demand excellence.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

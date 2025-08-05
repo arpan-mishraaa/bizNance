@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task - {{ group.name }}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'dashboard' %}" class="logo">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 11H7v8h2v-8zm4-4h-2v12h2V7zm4-3h-2v15h2V4z"/>
+                    <circle cx="12" cy="4" r="2" opacity="0.3"/>
+                </svg>
+                BizNance
+            </a>
+            <div class="nav-buttons">
+                <a href="{% url 'dashboard' %}" class="btn btn-login">Dashboard</a>
+                <a href="{% url 'logout' %}" class="btn btn-signup">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="login-container" style="max-width: 600px;">
+            <div class="login-header">
+                <h1>Add New Task</h1>
+                <p>Assign a task to {{ group.name }} members</p>
+            </div>
+            
+            <form class="login-form" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="title">Task Title</label>
+                    <input type="text" id="title" name="title" required placeholder="Enter task title">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" placeholder="Describe the task" style="min-height: 100px; resize: vertical; padding: 0.875rem 1rem; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 1rem; transition: all 0.3s ease; background: white; font-family: inherit;"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="assigned_to">Assign To</label>
+                    <select id="assigned_to" name="assigned_to" required style="padding: 0.875rem 1rem; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 1rem; transition: all 0.3s ease; background: white; width: 100%;">
+                        <option value="">Select member</option>
+                        {% for member in members %}
+                            <option value="{{ member.user.id }}">{{ member.user.first_name }} {{ member.user.last_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="due_date">Due Date (Optional)</label>
+                    <input type="datetime-local" id="due_date" name="due_date" style="padding: 0.875rem 1rem; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 1rem; transition: all 0.3s ease; background: white; width: 100%;">
+                </div>
+                
+                <button type="submit" class="btn-primary">Create Task</button>
+            </form>
+            
+            <div class="signup-link">
+                <a href="{% url 'group_detail' group.id %}">← Back to Group</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Group - BizNance</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'dashboard' %}" class="logo">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 11H7v8h2v-8zm4-4h-2v12h2V7zm4-3h-2v15h2V4z"/>
+                    <circle cx="12" cy="4" r="2" opacity="0.3"/>
+                </svg>
+                BizNance
+            </a>
+            <div class="nav-buttons">
+                <a href="{% url 'dashboard' %}" class="btn btn-login">Dashboard</a>
+                <a href="{% url 'logout' %}" class="btn btn-signup">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>Join a Group</h1>
+                <p>Enter the group code to join an existing team</p>
+            </div>
+            
+            <form class="login-form" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="code">Group Code</label>
+                    <input type="text" id="code" name="code" required placeholder="Enter 8-character group code" maxlength="8" style="text-transform: uppercase;">
+                </div>
+                
+                <button type="submit" class="btn-primary">Join Group</button>
+            </form>
+            
+            <div class="divider">
+                <span>or</span>
+            </div>
+            
+            <a href="{% url 'create_group' %}" class="btn-google">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#667eea">
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                </svg>
+                Create New Group
+            </a>
+            
+            <div class="signup-link">
+                <a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

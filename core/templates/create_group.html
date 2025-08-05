@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Group - BizNance</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'dashboard' %}" class="logo">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 11H7v8h2v-8zm4-4h-2v12h2V7zm4-3h-2v15h2V4z"/>
+                    <circle cx="12" cy="4" r="2" opacity="0.3"/>
+                </svg>
+                BizNance
+            </a>
+            <div class="nav-buttons">
+                <a href="{% url 'dashboard' %}" class="btn btn-login">Dashboard</a>
+                <a href="{% url 'logout' %}" class="btn btn-signup">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>Create New Group</h1>
+                <p>Start building your team and assign tasks</p>
+            </div>
+            
+            <form class="login-form" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Group Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter group name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" placeholder="Describe your group's purpose" style="min-height: 100px; resize: vertical; padding: 0.875rem 1rem; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 1rem; transition: all 0.3s ease; background: white; font-family: inherit;"></textarea>
+                </div>
+                
+                <button type="submit" class="btn-primary">Create Group</button>
+            </form>
+            
+            <div class="signup-link">
+                <a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

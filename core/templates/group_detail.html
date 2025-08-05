@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ group.name }} - BizNance</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'dashboard' %}" class="logo">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 11H7v8h2v-8zm4-4h-2v12h2V7zm4-3h-2v15h2V4z"/>
+                    <circle cx="12" cy="4" r="2" opacity="0.3"/>
+                </svg>
+                BizNance
+            </a>
+            <div class="nav-buttons">
+                <a href="{% url 'dashboard' %}" class="btn btn-login">Dashboard</a>
+                <a href="{% url 'logout' %}" class="btn btn-signup">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content" style="padding-top: 6rem;">
+        <div class="dashboard-container">
+            <div class="group-header-section">
+                <div class="group-info">
+                    <h1>{{ group.name }}</h1>
+                    <p>{{ group.description }}</p>
+                    <div class="group-meta">
+                        <span class="group-code">Code: {{ group.code }}</span>
+                        {% if is_admin %}
+                            <span class="admin-badge">You are Admin</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="group-content">
+                <div class="members-section">
+                    <h2>Team Members ({{ members.count }})</h2>
+                    <div class="members-grid">
+                        {% for member in members %}
+                        <div class="member-card">
+                            <div class="member-avatar">
+                                {{ member.user.first_name|first }}{{ member.user.last_name|first }}
+                            </div>
+                            <div class="member-info">
+                                <h4>{{ member.user.first_name }} {{ member.user.last_name }}</h4>
+                                <p>{{ member.user.email }}</p>
+                                {% if member.user == group.admin %}
+                                    <span class="role-badge admin">Admin</span>
+                                {% else %}
+                                    <span class="role-badge member">Member</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="tasks-section">
+                    <div class="section-header">
+                        <h2>Tasks</h2>
+                        {% if is_admin %}
+                            <a href="{% url 'add_task' group.id %}" class="btn btn-primary">Add Task</a>
+                        {% endif %}
+                    </div>
+                    <div class="tasks-grid">
+                        {% for task in tasks %}
+                        <div class="task-card">
+                            <div class="task-header">
+                                <h4><a href="{% url 'task_detail' task.id %}" style="text-decoration: none; color: inherit;">{{ task.title }}</a></h4>
+                                <span class="task-status status-{{ task.status }}">{{ task.status|title }}</span>
+                            </div>
+                            <p>{{ task.description|truncatechars:100 }}</p>
+                            <div class="task-meta">
+                                <span>Assigned to: {{ task.assigned_to.first_name }}</span>
+                                <span>By: {{ task.assigned_by.first_name }}</span>
+                            </div>
+                            <a href="{% url 'task_detail' task.id %}" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">View Task</a>
+                        </div>
+                        {% empty %}
+                        <div class="empty-state">
+                            <p>No tasks created yet.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

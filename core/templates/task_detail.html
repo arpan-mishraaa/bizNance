@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ task.title }} - BizNance</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'dashboard' %}" class="logo">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 11H7v8h2v-8zm4-4h-2v12h2V7zm4-3h-2v15h2V4z"/>
+                    <circle cx="12" cy="4" r="2" opacity="0.3"/>
+                </svg>
+                BizNance
+            </a>
+            <div class="nav-buttons">
+                <a href="{% url 'dashboard' %}" class="btn btn-login">Dashboard</a>
+                <a href="{% url 'logout' %}" class="btn btn-signup">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content" style="padding-top: 6rem;">
+        <div class="dashboard-container">
+            <div class="group-header-section">
+                <div class="group-info">
+                    <h1>{{ task.title }}</h1>
+                    <p>{{ task.description }}</p>
+                    <div class="group-meta">
+                        <span>Status: <span class="task-status status-{{ task.status }}">{{ task.status|title }}</span></span>
+                        <span>Assigned to: {{ task.assigned_to.first_name }} {{ task.assigned_to.last_name }}</span>
+                        <span>Created by: {{ task.assigned_by.first_name }}</span>
+                        {% if task.due_date %}
+                            <span>Due: {{ task.due_date|date:"M d, Y H:i" }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% if files %}
+            <div class="dashboard-section">
+                <h2>Attached Files</h2>
+                <div class="files-list">
+                    {% for file in files %}
+                    <div class="file-item">
+                        <a href="{{ file.file.url }}" target="_blank" class="btn btn-primary">
+                            📎 {{ file.file.name|cut:"task_files/" }}
+                        </a>
+                        <span>Uploaded by {{ file.uploaded_by.first_name }} on {{ file.uploaded_at|date:"M d, Y" }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if is_assigned and task.status != 'completed' and task.status != 'submitted' %}
+            <div class="dashboard-section">
+                <h2>Submit Task</h2>
+                <form method="post" action="{% url 'submit_task' task.id %}" enctype="multipart/form-data" class="submit-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="notes">Completion Notes</label>
+                        <textarea id="notes" name="notes" placeholder="Add any notes about your work" style="min-height: 100px; resize: vertical; padding: 0.875rem 1rem; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 1rem; transition: all 0.3s ease; background: white; font-family: inherit; width: 100%;"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="files">Attach Files</label>
+                        <input type="file" id="files" name="files" multiple style="padding: 0.875rem 1rem; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 1rem; transition: all 0.3s ease; background: white; width: 100%;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" required style="margin-right: 0.5rem;">
+                            I confirm that this task is completed and ready for review
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Submit for Approval</button>
+                </form>
+            </div>
+            {% endif %}
+
+            {% if is_admin and task.status == 'submitted' %}
+            <div class="dashboard-section">
+                <h2>Admin Actions</h2>
+                <div class="admin-actions">
+                    <a href="{% url 'approve_task' task.id %}" class="btn btn-signup" onclick="return confirm('Approve this task?')">✓ Approve Task</a>
+                    <a href="{% url 'reject_task' task.id %}" class="btn btn-login" onclick="return confirm('Reject this task?')" style="background: #dc3545; border-color: #dc3545;">✗ Reject Task</a>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="signup-link" style="text-align: center; margin-top: 2rem;">
+                <a href="{% url 'group_detail' task.group.id %}">← Back to Group</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

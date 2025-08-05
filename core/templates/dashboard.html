@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - BizNance</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'dashboard' %}" class="logo">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 11H7v8h2v-8zm4-4h-2v12h2V7zm4-3h-2v15h2V4z"/>
+                    <circle cx="12" cy="4" r="2" opacity="0.3"/>
+                </svg>
+                BizNance
+            </a>
+            <div class="nav-buttons">
+                <span style="color: #667eea; margin-right: 1rem;">Welcome, {{ user.first_name }}!</span>
+                <a href="{% url 'logout' %}" class="btn btn-login">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" style="padding-top: 6rem;">
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h1>Your Dashboard</h1>
+                <p>Manage your teams and track progress efficiently</p>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <a href="{% url 'create_group' %}" class="action-card">
+                    <div class="action-icon">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        </svg>
+                    </div>
+                    <h3>Create Group</h3>
+                    <p>Start a new team and invite members</p>
+                </a>
+                
+                <a href="{% url 'join_group' %}" class="action-card">
+                    <div class="action-icon">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                            <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 8H16c-.8 0-1.54.37-2 1l-3 4v7h2v-6l1.5-2L17 18h3z"/>
+                        </svg>
+                    </div>
+                    <h3>Join Group</h3>
+                    <p>Enter a group code to join existing team</p>
+                </a>
+            </div>
+
+            <!-- Groups Section -->
+            <div class="dashboard-section">
+                <h2>Your Groups</h2>
+                <div class="groups-grid">
+                    {% for membership in user_groups %}
+                    <div class="group-card">
+                        <div class="group-header">
+                            <h3>{{ membership.group.name }}</h3>
+                            {% if membership.group.admin == user %}
+                                <span class="admin-badge">Admin</span>
+                            {% endif %}
+                        </div>
+                        <p>{{ membership.group.description|truncatechars:100 }}</p>
+                        <div class="group-meta">
+                            <span>Code: {{ membership.group.code }}</span>
+                            <span>{{ membership.group.members.count }} members</span>
+                        </div>
+                        <a href="{% url 'group_detail' membership.group.id %}" class="btn btn-primary">View Group</a>
+                    </div>
+                    {% empty %}
+                    <div class="empty-state">
+                        <p>You haven't joined any groups yet. Create one or join using a group code!</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Recent Tasks -->
+            <div class="dashboard-section">
+                <h2>Recent Tasks</h2>
+                <div class="tasks-list">
+                    {% for task in recent_tasks %}
+                    <div class="task-item">
+                        <div class="task-info">
+                            <h4>{{ task.title }}</h4>
+                            <p>{{ task.group.name }} • {{ task.status|title }}</p>
+                        </div>
+                        <div class="task-status status-{{ task.status }}">
+                            {{ task.status|title }}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="empty-state">
+                        <p>No tasks assigned yet.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
